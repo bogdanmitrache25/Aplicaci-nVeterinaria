@@ -33,6 +33,24 @@ export const Formulario = ({
     return random + fecha;
   };
 
+  const handleFechaChange = (evento) => {
+    const fechaSeleccionada = evento.target.value;
+    const fechaActual = new Date().toISOString().split("T")[0];
+
+    if (fechaSeleccionada > fechaActual) {
+      setErrorFecha(true);
+      setAlta("");
+    } else {
+      setErrorFecha(false);
+
+      // Convertir la fecha al formato dd/mm/aaaa
+      const [year, month, day] = fechaSeleccionada.split("-");
+      const fechaFormateada = `${day}/${month}/${year}`;
+
+      setAlta(fechaFormateada);
+    }
+  };
+
   const handleSubmit = (evento) => {
     evento.preventDefault();
 
@@ -85,19 +103,6 @@ export const Formulario = ({
     setEmail("");
     setAlta("");
     setSintomas("");
-  };
-
-  const handleFechaChange = (evento) => {
-    const fechaSeleccionada = evento.target.value;
-    const fechaActual = new Date().toISOString().split("T")[0];
-
-    if (fechaSeleccionada > fechaActual) {
-      setErrorFecha(true);
-      setAlta("");
-    } else {
-      setErrorFecha(false);
-      setAlta(fechaSeleccionada);
-    }
   };
 
   return (
