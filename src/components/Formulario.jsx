@@ -41,6 +41,7 @@ export const Formulario = ({
 
     if ([nombre, propietario, email, alta, sintomas].includes("")) {
       setError(true);
+      return;
     } else {
       setError(false);
     }
