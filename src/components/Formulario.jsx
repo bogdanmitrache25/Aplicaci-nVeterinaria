@@ -14,6 +14,7 @@ export const Formulario = ({
   const [errorNombreMascota, setErrorNombreMascota] = useState(false);
   const [errorNombrePropietario, setErrorNombrePropietario] = useState(false);
   const [error, setError] = useState(false);
+  const [errorFecha, setErrorFecha] = useState(false); // Nuevo estado para validar fecha
 
   useEffect(() => {
     if (Object.keys(paciente).length > 0) {
@@ -84,6 +85,19 @@ export const Formulario = ({
     setEmail("");
     setAlta("");
     setSintomas("");
+  };
+
+  const handleFechaChange = (evento) => {
+    const fechaSeleccionada = evento.target.value;
+    const fechaActual = new Date().toISOString().split("T")[0];
+
+    if (fechaSeleccionada > fechaActual) {
+      setErrorFecha(true);
+      setAlta("");
+    } else {
+      setErrorFecha(false);
+      setAlta(fechaSeleccionada);
+    }
   };
 
   return (
@@ -177,8 +191,13 @@ export const Formulario = ({
             type="date"
             className="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md"
             value={alta}
-            onChange={(evento) => setAlta(evento.target.value)}
+            onChange={handleFechaChange}
           />
+          {errorFecha && (
+            <p className="text-red-500 text-sm">
+              La fecha de alta no puede ser posterior al día de hoy.
+            </p>
+          )}
         </div>
 
         <div className="mb-5">
