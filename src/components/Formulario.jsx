@@ -91,14 +91,16 @@ export const Formulario = ({
       <h2 className="font-black text-3xl text-center">Seguimiento Pacientes</h2>
       <p className="text-lg mt-5 text-center mb-10">
         Añade Pacientes y {""}
-        <span className="text-green-600 font-bold ">Adminístralos</span>
+        <span className="text-green-600 font-bold transition duration-300 ease-in-out hover:text-blue-500 ">
+          Adminístralos
+        </span>
       </p>
       <form
         onSubmit={handleSubmit}
         className="bg-white shadow md rounded lg py-10 px-5 mb-10"
       >
         {error && (
-          <p className="text-red-500 text-sm">
+          <p className="text-red-500 text-sm ">
             Todos los campos son obligatorios
           </p>
         )}
@@ -196,7 +198,7 @@ export const Formulario = ({
         </div>
         <input
           type="submit"
-          className="bg-green-600 w-full p-3 text-white uppercase font-bold hover:bg-green-700 cursor-pointer transition-all"
+          className="bg-green-600 w-full p-3 text-white uppercase font-bold hover:bg-green-700 cursor-pointer transition-all "
           value={paciente.id ? "Editar Paciente" : "Agregar Paciente"}
         />
       </form>
