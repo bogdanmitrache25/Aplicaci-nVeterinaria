@@ -14,7 +14,7 @@ export const Formulario = ({
   const [errorNombreMascota, setErrorNombreMascota] = useState(false);
   const [errorNombrePropietario, setErrorNombrePropietario] = useState(false);
   const [error, setError] = useState(false);
-  const [errorFecha, setErrorFecha] = useState(false); // Nuevo estado para validar fecha
+  const [errorFecha, setErrorFecha] = useState(false);
 
   useEffect(() => {
     if (Object.keys(paciente).length > 0) {
@@ -43,7 +43,6 @@ export const Formulario = ({
     } else {
       setErrorFecha(false);
 
-      // Convertir la fecha al formato dd/mm/aaaa
       const [year, month, day] = fechaSeleccionada.split("-");
       const fechaFormateada = `${day}/${month}/${year}`;
 
@@ -54,7 +53,7 @@ export const Formulario = ({
   const handleSubmit = (evento) => {
     evento.preventDefault();
 
-    const nombreValido = /^[A-Za-z\s]+$/; // Expresión regular para aceptar solo letras y espacios
+    const nombreValido = /^[A-Za-z\s]+$/;
 
     if (![nombre, propietario, email, alta, sintomas].every(Boolean)) {
       setError(true);
