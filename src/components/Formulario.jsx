@@ -34,19 +34,20 @@ export const Formulario = ({
   };
 
   const handleFechaChange = (evento) => {
-    const fechaSeleccionada = evento.target.value;
-    const fechaActual = new Date().toISOString().split("T")[0];
+    const fechaIngresada = evento.target.value;
+    const regexFecha = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/;
 
-    if (fechaSeleccionada > fechaActual) {
-      setErrorFecha(true);
-      setAlta("");
-    } else {
-      setErrorFecha(false);
-
-      const [year, month, day] = fechaSeleccionada.split("-");
-      const fechaFormateada = `${day}/${month}/${year}`;
-
+    if (regexFecha.test(fechaIngresada)) {
+      const [, day, month, year] = regexFecha.exec(fechaIngresada);
+      const fechaFormateada = `${day.padStart(2, "0")}/${month.padStart(
+        2,
+        "0"
+      )}/${year}`;
       setAlta(fechaFormateada);
+      setErrorFecha(false);
+    } else {
+      setAlta("");
+      setErrorFecha(true);
     }
   };
 
@@ -192,14 +193,15 @@ export const Formulario = ({
           </label>
           <input
             id="alta"
-            type="date"
+            type="text"
+            placeholder="dd/mm/aaaa"
             className="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md"
             value={alta}
             onChange={handleFechaChange}
           />
           {errorFecha && (
             <p className="text-red-500 text-sm">
-              La fecha de alta no puede ser posterior al día de hoy.
+              La fecha de alta no es válida (dd/mm/aaaa).
             </p>
           )}
         </div>
