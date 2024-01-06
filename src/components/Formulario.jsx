@@ -14,7 +14,7 @@ export const Formulario = ({
   const [errorNombreMascota, setErrorNombreMascota] = useState(false);
   const [errorNombrePropietario, setErrorNombrePropietario] = useState(false);
   const [error, setError] = useState(false);
-  const [errorFecha, setErrorFecha] = useState(false);
+  const [errorFecha, setErrorFecha] = useState(false); // Nuevo estado para validar fecha
 
   useEffect(() => {
     if (Object.keys(paciente).length > 0) {
@@ -33,28 +33,10 @@ export const Formulario = ({
     return random + fecha;
   };
 
-  const handleFechaChange = (evento) => {
-    const fechaIngresada = evento.target.value;
-    const regexFecha = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/;
-
-    if (regexFecha.test(fechaIngresada)) {
-      const [, day, month, year] = regexFecha.exec(fechaIngresada);
-      const fechaFormateada = `${day.padStart(2, "0")}/${month.padStart(
-        2,
-        "0"
-      )}/${year}`;
-      setAlta(fechaFormateada);
-      setErrorFecha(false);
-    } else {
-      setAlta("");
-      setErrorFecha(true);
-    }
-  };
-
   const handleSubmit = (evento) => {
     evento.preventDefault();
 
-    const nombreValido = /^[A-Za-z\s]+$/;
+    const nombreValido = /^[A-Za-z\s]+$/; // Expresión regular para aceptar solo letras y espacios
 
     if (![nombre, propietario, email, alta, sintomas].every(Boolean)) {
       setError(true);
@@ -103,6 +85,19 @@ export const Formulario = ({
     setEmail("");
     setAlta("");
     setSintomas("");
+  };
+
+  const handleFechaChange = (evento) => {
+    const fechaSeleccionada = evento.target.value;
+    const fechaActual = new Date().toISOString().split("T")[0];
+
+    if (fechaSeleccionada > fechaActual) {
+      setErrorFecha(true);
+      setAlta("");
+    } else {
+      setErrorFecha(false);
+      setAlta(fechaSeleccionada);
+    }
   };
 
   return (
@@ -193,15 +188,14 @@ export const Formulario = ({
           </label>
           <input
             id="alta"
-            type="text"
-            placeholder="dd/mm/aaaa"
+            type="date"
             className="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md"
             value={alta}
             onChange={handleFechaChange}
           />
           {errorFecha && (
             <p className="text-red-500 text-sm">
-              La fecha de alta no es válida (dd/mm/aaaa).
+              La fecha de alta no puede ser posterior al día de hoy.
             </p>
           )}
         </div>
